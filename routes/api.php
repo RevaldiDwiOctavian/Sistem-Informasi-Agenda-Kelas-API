@@ -8,7 +8,7 @@ use App\Http\Controllers\API\Admin\UserManagement\UserManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserSiswaManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserAdminManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserGuruManagementController;
-use App\Http\Controllers\API\Admin\GuruManagementController;
+use App\Http\Controllers\API\Admin\GuruManagement\GuruManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
         // Guru Management Route
         Route::post('/guru', [GuruManagementController::class, 'addGuru']);
         Route::get('/gurus', [GuruManagementController::class, 'showGurus']);
+        Route::put('/guru/{id}', [GuruManagementController::class, 'updateGuru']);
+        Route::delete('/guru/{id}', [GuruManagementController::class, 'deleteGuru']);
 
     });
 
