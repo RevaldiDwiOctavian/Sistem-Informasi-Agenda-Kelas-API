@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('nama_lengkap');
             $table->integer('nisn');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('rombel_id')->references('id')->on('rombels');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('rombel_id')->references('id')->on('rombels')->onDelete('cascade');
         });
     }
 

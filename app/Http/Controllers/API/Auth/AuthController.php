@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -36,15 +36,7 @@ class AuthController extends Controller
     }
 
     public function profile(){
-        if(auth()->user()->role != null){
-            if(auth()->user()->role == "siswa"){
-                $user = Auth::user()->siswa;
-            }elseif(auth()->user()->role == "guru"){
-                $user = Auth::user()->guru;
-            }elseif(auth()->user()->role == "admin"){
-                $user = Auth::user();
-            }
-        }
+        $user = Auth::user();
         return response() -> json(['data' => $user]);
     }
 }

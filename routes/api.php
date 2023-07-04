@@ -3,6 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Admin\UserManagement\UserManagementController;
+use App\Http\Controllers\API\Admin\UserManagement\UserSiswaManagementController;
+use App\Http\Controllers\API\Admin\UserManagement\UserAdminManagementController;
+use App\Http\Controllers\API\Admin\UserManagement\UserGuruManagementController;
+use App\Http\Controllers\API\Admin\GuruManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,16 +21,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [App\Http\Controllers\API\Auth\RegisterController::class, 'register']);
-Route::post('/login', [App\Http\Controllers\API\Auth\AuthController::class, 'login']);
+// Aut Route
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('/profile',  [App\Http\Controllers\API\Auth\AuthController::class, 'profile']);
+    Route::get('/user',  [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::prefix('admin')->group(function () {
+        // Admin Route
+        // User Management Route
+        Route::post('/users', [UserManagementController::class, 'addUser']);
+        Route::patch('users/{id}', [UserManagementController::class, 'updateUsers']);
+        Route::delete('users/{id}', [UserManagementController::class, 'deleteUser']);
 
-    //Admin
-    Route::get('/admin/users/admin', [App\Http\Controllers\API\Admin\UserManagementController::class, 'getUserAdmin']);
-    Route::get('/admin/users/guru', [App\Http\Controllers\API\Admin\UserManagementController::class, 'getUserGuru']);
-    Route::get('/admin/users/siswa', [App\Http\Controllers\API\Admin\UserManagementController::class, 'getUserSiswa']);
+        // User Admin
+        Route::get('/users/admin', [UserAdminManagementController::class, 'getUserAdmin']);
+        Route::get('/users/admin/{id}', [UserAdminManagementController::class, 'getUserAdminById']);
 
-    Route::post('/logout', [App\Http\Controllers\API\Auth\AuthController::class, 'logout']);
+        // User Guru
+        Route::get('/users/guru', [UserGuruManagementController::class, 'getUserGuru']);
+        Route::get('/users/guru/{id}', [UserGuruManagementController::class, 'getUserGuruById']);
+
+        // User Siswa
+        Route::get('/users/siswa', [UserSiswaManagementController::class, 'getUserSiswa']);
+        Route::get('/users/siswa/{id}', [UserSiswaManagementController::class, 'getUserSiswaById']);
+
+        // Guru Management Route
+        Route::post('/guru', [GuruManagementController::class, 'addGuru']);
+        Route::get('/gurus', [GuruManagementController::class, 'showGurus']);
+
+    });
+
 });
