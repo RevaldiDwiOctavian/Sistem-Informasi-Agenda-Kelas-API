@@ -12,8 +12,9 @@ class Siswa extends Model
     protected $fillable = [
         'id_user',
         'id_rombel',
+        'nisn',
         'nama_lengkap',
-        'nisn'
+        'jenis_kelamin'
     ];
 
     public function user(){

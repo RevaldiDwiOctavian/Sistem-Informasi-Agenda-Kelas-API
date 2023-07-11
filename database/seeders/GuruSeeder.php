@@ -17,12 +17,14 @@ class GuruSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
+        $gender = $faker->randomElement(['Laki-laki', 'Perempuan']);
  
     	for($i = 1; $i <= 50; $i++){
  
     		DB::table('gurus')->insert([
-    			'nama_lengkap' => $faker->name,
     			'nuptk' => $faker->numberBetween(1000,10000),
+    			'nama_lengkap' => $faker->name,
+    			'jenis_kelamin' => $gender,
                 'created_at' =>  date("Y-m-d H:i:s"),
     		]);
  

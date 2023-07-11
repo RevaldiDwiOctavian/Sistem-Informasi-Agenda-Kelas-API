@@ -12,8 +12,9 @@ class SiswaManagementController extends Controller
     public function addSiswa(Request $request) {
         if (auth()->user()->role == "admin") {
             $validator = Validator::make($request->all(),[
-                'nama_lengkap' => 'required|string|max:255',
                 'nisn' => 'required|string|max:255',
+                'nama_lengkap' => 'required|string|max:255',
+                'jenis_kelamin' => 'required|string|max:20'
             ]);
     
             if($validator->fails()){
@@ -21,8 +22,9 @@ class SiswaManagementController extends Controller
             }
     
             $siswa = Siswa::create([
-                'nama_lengkap' => $request->nama_lengkap,
                 'nisn' => $request->nisn,
+                'nama_lengkap' => $request->nama_lengkap,
+                'jenis_kelamin' => $request->jenis_kelamin,
                 'user_id' => $request->user_id,
             ]);
         } else {
@@ -63,8 +65,9 @@ class SiswaManagementController extends Controller
     public function updateSiswa($id, Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'nama_lengkap' => 'required|string|max:255',
             'nisn' => 'required|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|string|max:20'
         ]);
 
         if ($validator->fails()) {
@@ -73,8 +76,9 @@ class SiswaManagementController extends Controller
 
         $siswa = Siswa::find($id);
         if (auth()->user()->role == "admin") {
-            $siswa->nama_lengkap = $request->nama_lengkap;
             $siswa->nisn = $request->nisn;
+            $siswa->nama_lengkap = $request->nama_lengkap;
+            $siswa->jenis_kelamin = $request->jenis_kelamin;
             $siswa->user_id = $request->user_id;
             if ($siswa->save()) {
                 return response()->json(['message' => "Siswa Updated"], 200);

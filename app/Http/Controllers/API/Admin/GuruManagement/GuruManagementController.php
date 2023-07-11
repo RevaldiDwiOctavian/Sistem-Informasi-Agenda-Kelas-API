@@ -15,7 +15,8 @@ class GuruManagementController extends Controller
         if (auth()->user()->role == "admin") {
             $validator = Validator::make($request->all(), [
                 'nama_lengkap' => 'required|string|max:255',
-                'nuptk' => 'required|string|max:255',
+                'nuptk' => 'required|string|max:20',
+                'jenis_kelamin' => 'required|string|max:20'
             ]);
 
             if ($validator->fails()) {
@@ -23,8 +24,9 @@ class GuruManagementController extends Controller
             }
 
             $guru = Guru::create([
-                'nama_lengkap' => $request->nama_lengkap,
                 'nuptk' => $request->nuptk,
+                'nama_lengkap' => $request->nama_lengkap,
+                'jenis_kelamin' => $request->jenis_kelamin,
                 'user_id' => $request->user_id,
             ]);
         } else {
@@ -32,7 +34,7 @@ class GuruManagementController extends Controller
         }
 
         return response()->json([
-            'message' => "Sucess",
+            'message' => "Success",
             'data' => $guru
         ]);
     }
@@ -48,7 +50,8 @@ class GuruManagementController extends Controller
         return response()->json(['data' => $user], 200);
     }
 
-    public function getGuruById($id) {
+    public function getGuruById($id)
+    {
         if (auth()->user()->role == "admin") {
             $guru = Guru::find($id);
         } else {
@@ -58,7 +61,7 @@ class GuruManagementController extends Controller
         if ($guru != null) {
             return response()->json(['data' => $guru], 200);
         }
-        
+
         return response()->json(['message' => "Guru not found"], 404);
     }
 
@@ -66,7 +69,8 @@ class GuruManagementController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string|max:255',
-            'nuptk' => 'required|string|max:255',
+            'nuptk' => 'required|string|max:20',
+            'jenis_kelamin' => 'required|string|max:20'
         ]);
 
         if ($validator->fails()) {
@@ -75,8 +79,9 @@ class GuruManagementController extends Controller
 
         $guru = Guru::find($id);
         if (auth()->user()->role == "admin") {
-            $guru->nama_lengkap = $request->nama_lengkap;
             $guru->nuptk = $request->nuptk;
+            $guru->nama_lengkap = $request->nama_lengkap;
+            $guru->jenis_kelamin = $request->jenis_kelamin;
             $guru->user_id = $request->user_id;
             if ($guru->save()) {
                 return response()->json(['message' => "Guru Updated"], 200);

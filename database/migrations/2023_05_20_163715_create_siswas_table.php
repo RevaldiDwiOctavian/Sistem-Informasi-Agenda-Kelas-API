@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('rombel_id')->nullable();
-            $table->string('nama_lengkap');
             $table->integer('nisn');
+            $table->string('nama_lengkap');
+            $table->string('jenis_kelamin');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('rombel_id')->references('id')->on('rombels')->onDelete('cascade');
