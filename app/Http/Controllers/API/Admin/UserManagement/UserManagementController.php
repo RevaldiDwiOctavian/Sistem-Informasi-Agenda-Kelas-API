@@ -66,6 +66,40 @@ class UserManagementController extends Controller
 
     }
 
+    public function deactivateUser($id) {
+        $user = User::find($id);
+        if (auth()->user()->role == "admin") {
+            if($user->status == "nonaktif"){
+                return response()->json(['message' => "User already inactive"]);
+            }
+            $user->status = "nonaktif";
+            if ($user->save()) {
+                return response()->json(['message' => "User deactivated"], 200);
+            } else {
+                return response()->json(['message' => "Failed to deactivate user"]);
+            }
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+    }
+
+    public function activateUser($id) {
+        $user = User::find($id);
+        if (auth()->user()->role == "admin") {
+            if($user->status == "aktif"){
+                return response()->json(['message' => "User already active"]);
+            }
+            $user->status = "aktif";
+            if ($user->save()) {
+                return response()->json(['message' => "User activated"], 200);
+            } else {
+                return response()->json(['message' => "Failed to activate user"]);
+            }
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+    }
+
     public function deleteUser($id)
     {
         $user = User::find($id);

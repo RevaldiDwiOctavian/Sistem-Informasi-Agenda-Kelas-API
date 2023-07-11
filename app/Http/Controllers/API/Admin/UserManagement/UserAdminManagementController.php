@@ -23,7 +23,7 @@ class UserAdminManagementController extends Controller
     public function getUserAdminById($id) {
         if (auth()->user()->role == "admin") {
             $user = DB::table('users')
-                ->select('users.id', 'users.name', 'users.email', 'users.role')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status')
                 ->where('users.id', $id, 'and')
                 ->where('users.role', 'admin')
                 ->get();

@@ -19,6 +19,12 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
+        if ($user->status !== 'aktif') {
+            return response()->json([
+                'message' => 'Akun tidak aktif',
+            ], 401);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response() -> json([

@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/users', [UserManagementController::class, 'addUser']);
         Route::patch('users/{id}', [UserManagementController::class, 'updateUsers']);
         Route::delete('users/{id}', [UserManagementController::class, 'deleteUser']);
+        Route::delete('users/deactivate/{id}', [UserManagementController::class, 'deactivateUser']);
+        Route::delete('users/activate/{id}', [UserManagementController::class, 'activateUser']);
 
         // User Admin
         Route::get('/users/admin', [UserAdminManagementController::class, 'getUserAdmin']);
