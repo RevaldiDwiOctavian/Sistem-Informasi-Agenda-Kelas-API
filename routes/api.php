@@ -9,6 +9,7 @@ use App\Http\Controllers\API\Admin\UserManagement\UserSiswaManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserAdminManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserGuruManagementController;
 use App\Http\Controllers\API\Admin\GuruManagement\GuruManagementController;
+use App\Http\Controllers\API\Admin\SiswaManagement\SiswaManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,8 @@ use App\Http\Controllers\API\Admin\GuruManagement\GuruManagementController;
 // Aut Route
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('/user',  [AuthController::class, 'profile']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/user', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::prefix('admin')->group(function () {
         // Admin Route
@@ -49,8 +50,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
         // Guru Management Route
         Route::post('/guru', [GuruManagementController::class, 'addGuru']);
         Route::get('/gurus', [GuruManagementController::class, 'showGurus']);
+        Route::get('/guru/{id}', [GuruManagementController::class, 'getGuruById']);
         Route::put('/guru/{id}', [GuruManagementController::class, 'updateGuru']);
         Route::delete('/guru/{id}', [GuruManagementController::class, 'deleteGuru']);
+
+        // Siswa Management Route
+        Route::post('/siswa', [SiswaManagementController::class, 'addSiswa']);
+        Route::get('/siswa', [SiswaManagementController::class, 'showSiswas']);
+        Route::put('/siswa/{id}', [SiswaManagementController::class, 'updateSiswa']);
+        Route::delete('/siswa/{id}', [SiswaManagementController::class, 'deleteSiswa']);
 
     });
 

@@ -10,17 +10,18 @@ use Validator;
 
 class GuruManagementController extends Controller
 {
-    public function addGuru(Request $request) {
+    public function addGuru(Request $request)
+    {
         if (auth()->user()->role == "admin") {
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'nama_lengkap' => 'required|string|max:255',
                 'nuptk' => 'required|string|max:255',
             ]);
-    
-            if($validator->fails()){
+
+            if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
-    
+
             $guru = Guru::create([
                 'nama_lengkap' => $request->nama_lengkap,
                 'nuptk' => $request->nuptk,
@@ -30,7 +31,7 @@ class GuruManagementController extends Controller
             return response()->json(['message' => "You don't have access"]);
         }
 
-        return response() -> json([
+        return response()->json([
             'message' => "Sucess",
             'data' => $guru
         ]);
@@ -47,9 +48,23 @@ class GuruManagementController extends Controller
         return response()->json(['data' => $user], 200);
     }
 
+    public function getGuruById($id) {
+        if (auth()->user()->role == "admin") {
+            $guru = Guru::find($id);
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+
+        if ($guru != null) {
+            return response()->json(['data' => $guru], 200);
+        }
+        
+        return response()->json(['message' => "Guru not found"], 404);
+    }
+
     public function updateGuru($id, Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string|max:255',
             'nuptk' => 'required|string|max:255',
         ]);
