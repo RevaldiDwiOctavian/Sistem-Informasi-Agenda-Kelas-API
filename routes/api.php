@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // Siswa Management Route
         Route::post('/siswa', [SiswaManagementController::class, 'addSiswa']);
         Route::get('/siswa', [SiswaManagementController::class, 'showSiswas']);
+        Route::get('/siswa/{id}', [SiswaManagementController::class, 'getSiswaById']);
         Route::put('/siswa/{id}', [SiswaManagementController::class, 'updateSiswa']);
         Route::delete('/siswa/{id}', [SiswaManagementController::class, 'deleteSiswa']);
 
