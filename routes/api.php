@@ -76,6 +76,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/pembelajaran', [PembelajaranManagementController::class, 'addPembelajaran']);
         Route::get('/pembelajarans', [PembelajaranManagementController::class, 'showPembelajarans']);
         Route::get('/pembelajaran/{id}', [PembelajaranManagementController::class, 'getPembelajaranById']);
+        Route::put('/pembelajaran/{id}', [PembelajaranManagementController::class, 'updatePembelajaran']);
+        Route::delete('/pembelajaran/{id}', [PembelajaranManagementController::class, 'deletePembelajaran']);
 
     });
 

@@ -10,8 +10,8 @@ class Pembelajaran extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_rombel',
-        'id_guru',
+        'rombel_id',
+        'guru_id',
         'mata_pelajaran',
     ];
 }
