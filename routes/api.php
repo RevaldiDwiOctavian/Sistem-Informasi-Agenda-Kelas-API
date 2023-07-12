@@ -10,6 +10,7 @@ use App\Http\Controllers\API\Admin\UserManagement\UserAdminManagementController;
 use App\Http\Controllers\API\Admin\UserManagement\UserGuruManagementController;
 use App\Http\Controllers\API\Admin\GuruManagement\GuruManagementController;
 use App\Http\Controllers\API\Admin\SiswaManagement\SiswaManagementController;
+use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/siswa/{id}', [SiswaManagementController::class, 'getSiswaById']);
         Route::put('/siswa/{id}', [SiswaManagementController::class, 'updateSiswa']);
         Route::delete('/siswa/{id}', [SiswaManagementController::class, 'deleteSiswa']);
+
+        // Pembelajaran Management Route
+        Route::post('/pembelajaran', [PembelajaranManagementController::class, 'addPembelajaran']);
+        Route::get('/pembelajarans', [PembelajaranManagementController::class, 'showPembelajarans']);
+        Route::get('/pembelajaran/{id}', [PembelajaranManagementController::class, 'getPembelajaranById']);
 
     });
 
