@@ -25,8 +25,8 @@ class UserGuruManagementController extends Controller
 
     public function getUserGuruById($id) {
         if (auth()->user()->role == "admin") {
-            $user = DB::table('siswas')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'siswas.nama_lengkap', 'siswas.nisn')
+            $user = DB::table('gurus')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'siswas.nama_lengkap', 'siswas.nuptk')
                 ->rightJoin('users', 'siswas.user_id', '=', 'users.id')
                 ->where('users.id', $id, 'and')
                 ->where('users.role', 'guru')
