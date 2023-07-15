@@ -10,7 +10,7 @@ class Rombel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_user',
+        'user_id',
         'nama_rombel',
         'jurusan',
     ];

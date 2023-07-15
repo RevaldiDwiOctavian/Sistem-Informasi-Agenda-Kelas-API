@@ -19,11 +19,11 @@ class UserManagementController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8'
             ]);
-    
+
             if($validator->fails()){
                 return response()->json($validator->errors(), 400);
             }
-    
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -53,7 +53,7 @@ class UserManagementController extends Controller
         $user = User::find($id);
         if (auth()->user()->role == "admin") {
             $user->name = $request->name;
-            $user->password = $request->password;
+            $user->password = Hash::make($request->password);
             $user->role = $request->role;
             if ($user->save()) {
                 return response()->json(['message' => "User Updated"], 200);

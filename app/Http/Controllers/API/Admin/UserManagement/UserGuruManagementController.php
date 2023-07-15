@@ -12,9 +12,10 @@ class UserGuruManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->select('users.id', 'users.name as nama_akun', 'users.email', 'users.role', 'users.status', 'gurus.nama_lengkap', 'gurus.nuptk')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->where('users.role', 'guru')
+                ->orWhere('users.role', 'walikelas')
                 ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
@@ -26,10 +27,11 @@ class UserGuruManagementController extends Controller
     public function getUserGuruById($id) {
         if (auth()->user()->role == "admin") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'siswas.nama_lengkap', 'siswas.nuptk')
-                ->rightJoin('users', 'siswas.user_id', '=', 'users.id')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->where('users.id', $id, 'and')
-                ->where('users.role', 'guru')
+                ->where('users.role', '=', 'guru')
+                ->where('users.role', '=', 'walikelas')
                 ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
@@ -38,7 +40,7 @@ class UserGuruManagementController extends Controller
         if ($user != null) {
             return response()->json(['data' => $user], 200);
         }
-        
+
         return response()->json(['message' => "Users not found"], 404);
     }
 }
