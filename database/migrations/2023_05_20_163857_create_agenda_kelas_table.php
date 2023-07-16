@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('guru_id');
             $table->unsignedBigInteger('pembelajaran_id');
             $table->text('materi_pembelajaran');
-            $table->string('kehadiran_guru');
+            $table->string('kehadiran_guru')->default("belum dikonfirmasi");
             $table->timestamps();
             $table->foreign('rombel_id')->references('id')->on('rombels');
             $table->foreign('guru_id')->references('id')->on('gurus');
