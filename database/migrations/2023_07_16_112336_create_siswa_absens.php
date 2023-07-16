@@ -17,12 +17,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('rombel_id');
             $table->unsignedBigInteger('siswa_id');
+            $table->unsignedBigInteger('agenda_kelas_id');
             $table->string('keterangan_absen');
             $table->string('alasan');
             $table->string('kelas');
             $table->timestamps();
             $table->foreign('rombel_id')->references('id')->on('rombels');
             $table->foreign('siswa_id')->references('id')->on('siswas');
+            $table->foreign('agenda_kelas_id')->references('id')->on('agenda_kelas');
         });
     }
 

@@ -18,15 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('rombel_id');
             $table->unsignedBigInteger('guru_id');
             $table->unsignedBigInteger('pembelajaran_id');
-            $table->unsignedBigInteger('siswa_absen_id');
             $table->text('materi_pembelajaran');
-            $table->timestamp('tgl_agenda');
             $table->string('kehadiran_guru');
             $table->timestamps();
             $table->foreign('rombel_id')->references('id')->on('rombels');
             $table->foreign('guru_id')->references('id')->on('gurus');
             $table->foreign('pembelajaran_id')->references('id')->on('pembelajarans');
-            $table->foreign('siswa_absen_id')->references('id')->on('siswa_absens');
         });
     }
 
