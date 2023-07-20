@@ -10,12 +10,10 @@ class AgendaKelas extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_rombel',
-        'id_guru',
-        'id_pembelajaran',
-        'id_siswa_absen',
+        'rombel_id',
+        'guru_id',
+        'pembelajaran_id',
         'materi_pembelajaran',
-        'tgl_agenda',
         'kehadiran_guru',
     ];
 }

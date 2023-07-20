@@ -12,6 +12,7 @@ use App\Http\Controllers\API\Admin\GuruManagement\GuruManagementController;
 use App\Http\Controllers\API\Admin\SiswaManagement\SiswaManagementController;
 use App\Http\Controllers\API\Admin\RombelManagement\RombelManagementController;
 use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagementController;
+use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/pembelajaran/{id}', [PembelajaranManagementController::class, 'getPembelajaranById']);
         Route::put('/pembelajaran/{id}', [PembelajaranManagementController::class, 'updatePembelajaran']);
         Route::delete('/pembelajaran/{id}', [PembelajaranManagementController::class, 'deletePembelajaran']);
+
+        // Agenda Kelas Management Route
+        Route::post('/agenda-kelas', [AgendaKelasManagementController::class, 'addAgendaKelas']);
+        Route::get('/agenda-kelas', [AgendaKelasManagementController::class, 'showAgendaKelas']);
 
     });
 
