@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Guru;
 use Hash;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class GuruManagementController extends Controller
 {
@@ -91,6 +92,17 @@ class GuruManagementController extends Controller
         } else {
             return response()->json(['message' => "You don't have access"]);
         }
+    }
+
+    public function getTotalGuru()
+    {
+        $total = DB::table('gurus')->count();
+
+        if ($total != null) {
+            return response()->json(['data' => $total], 200);
+        }
+
+        return response()->json(['message' => "Siswa not found"], 404);
     }
 
     public function deleteGuru($id)

@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/guru', [GuruManagementController::class, 'addGuru']);
         Route::get('/gurus', [GuruManagementController::class, 'showGurus']);
         Route::get('/guru/{id}', [GuruManagementController::class, 'getGuruById']);
+        Route::get('/guru-total', [GuruManagementController::class, 'getTotalGuru']);
         Route::put('/guru/{id}', [GuruManagementController::class, 'updateGuru']);
         Route::delete('/guru/{id}', [GuruManagementController::class, 'deleteGuru']);
 
