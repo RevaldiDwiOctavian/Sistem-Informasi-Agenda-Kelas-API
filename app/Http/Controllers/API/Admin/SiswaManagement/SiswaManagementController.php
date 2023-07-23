@@ -5,20 +5,21 @@ namespace App\Http\Controllers\API\Admin\SiswaManagement;
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
-use Validator;
-use DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class SiswaManagementController extends Controller
 {
-    public function addSiswa(Request $request) {
+    public function addSiswa(Request $request)
+    {
         if (auth()->user()->role == "admin") {
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'nisn' => 'required|string|max:255',
                 'nama_lengkap' => 'required|string|max:255',
                 'jenis_kelamin' => 'required|string|max:20'
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
 
@@ -33,7 +34,7 @@ class SiswaManagementController extends Controller
             return response()->json(['message' => "You don't have access"]);
         }
 
-        return response() -> json([
+        return response()->json([
             'message' => "Sucess",
             'data' => $siswa
         ]);
@@ -43,10 +44,10 @@ class SiswaManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $siswa = DB::table('siswas')
-            ->select('siswas.id', 'siswas.nama_lengkap', 'rombels.nama_rombel', 'rombels.jurusan', 'users.name as nama_akun')
-            ->leftJoin('users', 'siswas.user_id', '=', 'users.id')
-            ->leftJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
-            ->get();
+                ->select('siswas.id', 'siswas.nama_lengkap', 'rombels.nama_rombel', 'rombels.jurusan', 'users.name as nama_akun')
+                ->leftJoin('users', 'siswas.user_id', '=', 'users.id')
+                ->leftJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
+                ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
         }
@@ -54,14 +55,15 @@ class SiswaManagementController extends Controller
         return response()->json(['data' => $siswa], 200);
     }
 
-    public function getSiswaById($id) {
+    public function getSiswaById($id)
+    {
         if (auth()->user()->role == "admin") {
             $siswa = DB::table('siswas')
-            ->select('siswas.id', 'siswas.nama_lengkap', 'rombels.nama_rombel', 'rombels.jurusan', 'users.name as nama_akun')
-            ->leftJoin('users', 'siswas.user_id', '=', 'users.id')
-            ->leftJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
-            ->where('siswas.id', $id)
-            ->get();
+                ->select('siswas.id', 'siswas.nama_lengkap', 'rombels.nama_rombel', 'rombels.jurusan', 'users.name as nama_akun')
+                ->leftJoin('users', 'siswas.user_id', '=', 'users.id')
+                ->leftJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
+                ->where('siswas.id', $id)
+                ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
         }
@@ -73,9 +75,20 @@ class SiswaManagementController extends Controller
         return response()->json(['message' => "Siswa not found"], 404);
     }
 
+    public function getTotalSiswa()
+    {
+        $total = DB::table('siswas')->count();
+
+        if ($total != null) {
+            return response()->json(['data' => $total], 200);
+        }
+
+        return response()->json(['message' => "Siswa not found"], 404);
+    }
+
     public function updateSiswa($id, Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'nisn' => 'required|string|max:255',
             'nama_lengkap' => 'required|string|max:255',
             'jenis_kelamin' => 'required|string|max:20'
