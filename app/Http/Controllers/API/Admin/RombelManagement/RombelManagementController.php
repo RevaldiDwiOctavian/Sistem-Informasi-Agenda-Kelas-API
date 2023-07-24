@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API\Admin\RombelManagement;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Rombel;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class RombelManagementController extends Controller
 {
@@ -64,6 +64,17 @@ class RombelManagementController extends Controller
 
         if ($rombel != null) {
             return response()->json(['data' => $rombel], 200);
+        }
+
+        return response()->json(['message' => "Rombel not found"], 404);
+    }
+
+    public function getTotalRombel()
+    {
+        $total = DB::table('rombels')->count();
+
+        if ($total != null) {
+            return response()->json(['data' => $total], 200);
         }
 
         return response()->json(['message' => "Rombel not found"], 404);

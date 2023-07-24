@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/rombel', [RombelManagementController::class, 'addRombel']);
         Route::get('/rombels', [RombelManagementController::class, 'showRombels']);
         Route::get('/rombel/{id}', [RombelManagementController::class, 'getRombelById']);
+        Route::get('/rombel-total', [RombelManagementController::class, 'getTotalRombel']);
         Route::put('/rombel/{id}', [RombelManagementController::class, 'updateRombel']);
         Route::delete('/rombel/{id}', [RombelManagementController::class, 'deleteRombel']);
 
