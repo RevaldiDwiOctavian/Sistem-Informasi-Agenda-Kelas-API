@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('kelas');
             $table->timestamps();
             $table->foreign('rombel_id')->references('id')->on('rombels');
-            $table->foreign('siswa_id')->references('id')->on('siswas');
+            $table->foreign('siswa_id')->references('id')->on('siswas')->onDelete('cascade');
             $table->foreign('agenda_kelas_id')->references('id')->on('agenda_kelas');
         });
     }

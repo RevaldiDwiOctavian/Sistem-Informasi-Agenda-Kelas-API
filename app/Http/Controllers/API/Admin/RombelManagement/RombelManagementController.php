@@ -13,6 +13,7 @@ class RombelManagementController extends Controller
     public function addRombel(Request $request) {
         if (auth()->user()->role == "admin") {
             $validator = Validator::make($request->all(), [
+                'user_id' => 'nullable|integer',
                 'nama_rombel' => 'required|string|max:255',
                 'jurusan' => 'required|string|max:255'
             ]);

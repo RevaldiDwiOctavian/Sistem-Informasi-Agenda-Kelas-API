@@ -65,7 +65,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/siswa', [SiswaManagementController::class, 'showSiswas']);
         Route::get('/siswa/{id}', [SiswaManagementController::class, 'getSiswaById']);
         Route::get('/siswa-total', [SiswaManagementController::class, 'getTotalSiswa']);
-        Route::put('/siswa/{id}', [SiswaManagementController::class, 'updateSiswa']);
+        Route::post('/siswa/{id}', [SiswaManagementController::class, 'updateSiswa']);
+        Route::patch('/siswa/{id}', [SiswaManagementController::class, 'setUserSiswa']);
         Route::delete('/siswa/{id}', [SiswaManagementController::class, 'deleteSiswa']);
 
         // Rombel Management Route
@@ -73,7 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/rombels', [RombelManagementController::class, 'showRombels']);
         Route::get('/rombel/{id}', [RombelManagementController::class, 'getRombelById']);
         Route::get('/rombel-total', [RombelManagementController::class, 'getTotalRombel']);
-        Route::put('/rombel/{id}', [RombelManagementController::class, 'updateRombel']);
+        Route::post('/rombel/{id}', [RombelManagementController::class, 'updateRombel']);
         Route::delete('/rombel/{id}', [RombelManagementController::class, 'deleteRombel']);
 
         // Pembelajaran Management Route
