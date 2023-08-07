@@ -4,8 +4,9 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -19,7 +20,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        if ($user->status !== 'aktif') {
+        if ($user->status !== 'Aktif') {
             return response()->json([
                 'message' => 'Akun tidak aktif',
             ], 401);
@@ -42,7 +43,16 @@ class AuthController extends Controller
     }
 
     public function profile(){
+       if (auth()->user()->role == "admin"){
         $user = Auth::user();
         return response() -> json(['data' => $user]);
+       } else if (auth()->user()->role == "guru"){
+        $user = DB::table('gurus')
+        ->select('users.id', 'users.email', 'users.name', 'users.role', 'gurus.id as guru_id')
+        ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
+        ->where('users.id', auth()->user()->id)
+        ->first();
+        return response() -> json(['data' => $user]);
+       }
     }
 }

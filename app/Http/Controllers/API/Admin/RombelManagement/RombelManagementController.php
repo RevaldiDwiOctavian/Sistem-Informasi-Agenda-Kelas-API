@@ -78,7 +78,7 @@ class RombelManagementController extends Controller
             return response()->json(['data' => $total], 200);
         }
 
-        return response()->json(['message' => "Rombel not found"], 404);
+        return response()->json(['data' => 0], 200);
     }
 
     public function updateRombel($id, Request $request)

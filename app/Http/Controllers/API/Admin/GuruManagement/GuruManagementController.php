@@ -43,7 +43,10 @@ class GuruManagementController extends Controller
     public function showGurus()
     {
         if (auth()->user()->role == "admin") {
-            $user = Guru::all();
+            $user = DB::table('gurus')
+            ->select('gurus.id', 'gurus.nuptk', 'gurus.nama_lengkap', 'gurus.jenis_kelamin', 'gurus.created_at', 'gurus.user_id', 'users.name as nama_akun')
+            ->leftJoin('users', 'gurus.user_id', '=', 'users.id')
+            ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
         }
@@ -94,6 +97,29 @@ class GuruManagementController extends Controller
         }
     }
 
+    public function setUserGuru($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'nullable|integer', // Add validation rules for user_id
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $guru = Guru::find($id);
+        if (auth()->user()->role == "admin") {
+            $guru->user_id = $request->user_id; // Update only the user_id field
+            if ($guru->save()) {
+                return response()->json(['message' => "Guru Updated"], 200);
+            } else {
+                return response()->json(['message' => "Failed to Update"]);
+            }
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+    }
+
     public function getTotalGuru()
     {
         $total = DB::table('gurus')->count();
@@ -102,7 +128,7 @@ class GuruManagementController extends Controller
             return response()->json(['data' => $total], 200);
         }
 
-        return response()->json(['message' => "Siswa not found"], 404);
+        return response()->json(['data' => 0], 200);
     }
 
     public function deleteGuru($id)

@@ -13,6 +13,7 @@ use App\Http\Controllers\API\Admin\SiswaManagement\SiswaManagementController;
 use App\Http\Controllers\API\Admin\RombelManagement\RombelManagementController;
 use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagementController;
 use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementController;
+use App\Http\Controllers\API\Guru\AgendaKelasGuruController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +29,15 @@ use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementCo
 // Aut Route
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
     Route::get('/user', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::prefix('admin')->group(function () {
         // Admin Route
         // User Management Route
         Route::post('/users', [UserManagementController::class, 'addUser']);
-        Route::patch('users/{id}', [UserManagementController::class, 'updateUsers']);
+        Route::post('users/{id}', [UserManagementController::class, 'updateUsers']);
+        Route::post('users/password/{id}', [UserManagementController::class, 'updateUserPassword']);
         Route::delete('users/{id}', [UserManagementController::class, 'deleteUser']);
         Route::delete('users/deactivate/{id}', [UserManagementController::class, 'deactivateUser']);
         Route::delete('users/activate/{id}', [UserManagementController::class, 'activateUser']);
@@ -46,6 +48,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         // User Guru
         Route::get('/users/guru', [UserGuruManagementController::class, 'getUserGuru']);
+        Route::get('/users/guru/walikelas', [UserGuruManagementController::class, 'getUserGuruWalikelas']);
         Route::get('/users/guru/{id}', [UserGuruManagementController::class, 'getUserGuruById']);
 
         // User Siswa
@@ -57,7 +60,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/gurus', [GuruManagementController::class, 'showGurus']);
         Route::get('/guru/{id}', [GuruManagementController::class, 'getGuruById']);
         Route::get('/guru-total', [GuruManagementController::class, 'getTotalGuru']);
-        Route::put('/guru/{id}', [GuruManagementController::class, 'updateGuru']);
+        Route::post('/guru/{id}', [GuruManagementController::class, 'updateGuru']);
+        Route::patch('/guru/{id}', [GuruManagementController::class, 'setUserGuru']);
         Route::delete('/guru/{id}', [GuruManagementController::class, 'deleteGuru']);
 
         // Siswa Management Route
@@ -81,13 +85,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/pembelajaran', [PembelajaranManagementController::class, 'addPembelajaran']);
         Route::get('/pembelajarans', [PembelajaranManagementController::class, 'showPembelajarans']);
         Route::get('/pembelajaran/{id}', [PembelajaranManagementController::class, 'getPembelajaranById']);
-        Route::put('/pembelajaran/{id}', [PembelajaranManagementController::class, 'updatePembelajaran']);
+        Route::post('/pembelajaran/{id}', [PembelajaranManagementController::class, 'updatePembelajaran']);
         Route::delete('/pembelajaran/{id}', [PembelajaranManagementController::class, 'deletePembelajaran']);
 
         // Agenda Kelas Management Route
         Route::post('/agenda-kelas', [AgendaKelasManagementController::class, 'addAgendaKelas']);
         Route::get('/agenda-kelas', [AgendaKelasManagementController::class, 'showAgendaKelas']);
-
+        Route::delete('/agenda-kelas/{id}', [AgendaKelasManagementController::class, 'deleteAgendaKelas']);
     });
 
+    Route::prefix('guru')->group(function () {
+        // Guru Routes
+        // Agenda Kelas Guru Route
+        Route::post('/agenda-kelas', [AgendaKelasGuruController::class, 'isiAgendaKelas']);
+    });
 });

@@ -42,7 +42,6 @@ class UserManagementController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
             'role' => 'required|string'
         ]);
 
@@ -51,10 +50,33 @@ class UserManagementController extends Controller
         }
 
         $user = User::find($id);
-        if (auth()->user()->role == "admin") {
+        if (auth()) {
             $user->name = $request->name;
-            $user->password = Hash::make($request->password);
             $user->role = $request->role;
+            $user->status = $request->status;
+            if ($user->save()) {
+                return response()->json(['message' => "User Updated"], 200);
+            } else {
+                return response()->json(['message' => "Failed to Update"]);
+            }
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+
+    }
+    public function updateUserPassword($id, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|string|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $user = User::find($id);
+        if (auth()) {
+            $user->password = Hash::make($request->password);
             if ($user->save()) {
                 return response()->json(['message' => "User Updated"], 200);
             } else {

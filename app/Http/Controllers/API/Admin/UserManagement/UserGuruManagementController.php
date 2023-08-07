@@ -12,10 +12,24 @@ class UserGuruManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.name as nama_akun', 'users.email', 'users.role', 'users.status', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->where('users.role', 'guru')
-                ->orWhere('users.role', 'walikelas')
+                ->get();
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+
+        return response()->json(['data' => $user], 200);
+    }
+
+    public function getUserGuruWalikelas()
+    {
+        if (auth()->user()->role == "admin") {
+            $user = DB::table('gurus')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
+                ->Where('users.role', 'walikelas')
                 ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);

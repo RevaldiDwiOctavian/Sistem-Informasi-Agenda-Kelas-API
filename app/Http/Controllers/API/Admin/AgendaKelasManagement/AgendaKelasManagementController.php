@@ -46,7 +46,7 @@ class AgendaKelasManagementController extends Controller
         if (auth()->user()->role == "admin") {
             $agendaKelas = DB::table('agenda_kelas')
                 ->select(
-                    'agenda_kelas.id as agenda_id',
+                    'agenda_kelas.id',
                     'agenda_kelas.created_at as tanggal_agenda_kelas',
                     'rombels.nama_rombel',
                     'rombels.jurusan',
@@ -80,7 +80,7 @@ class AgendaKelasManagementController extends Controller
                         'siswa_absens.created_at',
                         'siswa_absens.updated_at'
                     )
-                    ->where('siswa_absens.agenda_kelas_id', $item->agenda_id)
+                    ->where('siswa_absens.agenda_kelas_id', $item->id)
                     ->get();
 
                 $item->siswa_absens = $siswaAbsens;
@@ -93,5 +93,20 @@ class AgendaKelasManagementController extends Controller
             return response()->json(['message' => "You don't have access"]);
         }
     }
+
+    public function deleteAgendaKelas($id)
+    {
+        $agendaKelas = AgendaKelas::find($id);
+        if (auth()->user()->role == "admin") {
+            if ($agendaKelas->delete()) {
+                return response()->json(['message' => "Agenda Kelas Deleted"], 200);
+            } else {
+                return response()->json(['message' => "Failed to Delete"]);
+            }
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+    }
+
 
 }

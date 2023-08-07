@@ -39,7 +39,7 @@ class PembelajaranManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $pembelajaran = DB::table('pembelajarans')
-            ->select('pembelajarans.id', 'pembelajarans.mata_pelajaran', 'rombels.nama_rombel', 'rombels.jurusan', 'gurus.nama_lengkap', 'gurus.nuptk')
+            ->select('pembelajarans.*', 'rombels.nama_rombel', 'rombels.jurusan', 'gurus.nama_lengkap as guru_pengampu', 'gurus.nuptk')
             ->leftJoin('rombels', 'pembelajarans.rombel_id', '=', 'rombels.id')
             ->leftJoin('gurus', 'pembelajarans.guru_id', '=', 'gurus.id')
             ->get();

@@ -12,7 +12,7 @@ class UserSiswaManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $user = DB::table('siswas')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'siswas.nama_lengkap', 'siswas.nisn')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'siswas.nama_lengkap', 'siswas.nisn')
                 ->rightJoin('users', 'siswas.user_id', '=', 'users.id')
                 ->where('users.role', 'siswa')
                 ->get();
