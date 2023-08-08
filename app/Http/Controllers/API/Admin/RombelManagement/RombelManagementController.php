@@ -39,7 +39,7 @@ class RombelManagementController extends Controller
 
     public function showRombels()
     {
-        if (auth()->user()->role == "admin") {
+        if (auth()) {
             $rombel = DB::table('rombels')
             ->select('rombels.id', 'rombels.nama_rombel', 'rombels.jurusan', 'rombels.user_id', 'users.name as wali_kelas')
             ->leftJoin('users', 'rombels.user_id', '=', 'users.id')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Guru;
 use App\Http\Controllers\Controller;
 use App\Models\AgendaKelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AgendaKelasGuruController extends Controller
@@ -45,5 +46,21 @@ class AgendaKelasGuruController extends Controller
 
             ]);
         }
+    }
+
+    public function showPembelajaranGuru($id)
+    {
+        if (auth()) {
+            $pembelajaran = DB::table('pembelajarans')
+            ->select('pembelajarans.*', 'rombels.nama_rombel', 'rombels.jurusan', 'gurus.nama_lengkap as guru_pengampu', 'gurus.nuptk')
+            ->leftJoin('rombels', 'pembelajarans.rombel_id', '=', 'rombels.id')
+            ->leftJoin('gurus', 'pembelajarans.guru_id', '=', 'gurus.id')
+            ->where('pembelajarans.guru_id', $id)
+            ->get();
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+
+        return response()->json(['data' => $pembelajaran], 200);
     }
 }
