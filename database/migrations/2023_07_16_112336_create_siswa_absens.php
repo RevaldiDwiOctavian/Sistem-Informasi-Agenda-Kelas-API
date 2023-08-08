@@ -15,14 +15,11 @@ return new class extends Migration
     {
         Schema::create('siswa_absens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('rombel_id');
             $table->unsignedBigInteger('siswa_id');
             $table->unsignedBigInteger('agenda_kelas_id');
             $table->string('keterangan_absen');
             $table->string('alasan');
-            $table->string('kelas');
             $table->timestamps();
-            $table->foreign('rombel_id')->references('id')->on('rombels');
             $table->foreign('siswa_id')->references('id')->on('siswas')->onDelete('cascade');
             $table->foreign('agenda_kelas_id')->references('id')->on('agenda_kelas');
         });
