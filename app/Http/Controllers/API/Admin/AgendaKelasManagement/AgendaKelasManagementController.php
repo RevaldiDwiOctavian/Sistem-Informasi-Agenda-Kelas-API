@@ -56,7 +56,7 @@ class AgendaKelasManagementController extends Controller
                 )
                 ->leftJoin('rombels', 'agenda_kelas.rombel_id', '=', 'rombels.id')
                 ->leftJoin('gurus', 'agenda_kelas.guru_id', '=', 'gurus.id')
-                ->leftJoin('siswa_absens', 'rombels.id', '=', 'siswa_absens.rombel_id')
+                ->leftJoin('siswa_absens', 'agenda_kelas.id', '=', 'siswa_absens.agenda_kelas_id')
                 ->leftJoin('pembelajarans', 'agenda_kelas.pembelajaran_id', '=', 'pembelajarans.id')
                 ->groupBy(
                     'agenda_kelas.id',
@@ -76,7 +76,6 @@ class AgendaKelasManagementController extends Controller
                         'siswa_absens.agenda_kelas_id',
                         'siswa_absens.keterangan_absen',
                         'siswa_absens.alasan',
-                        'siswa_absens.kelas',
                         'siswa_absens.created_at',
                         'siswa_absens.updated_at'
                     )

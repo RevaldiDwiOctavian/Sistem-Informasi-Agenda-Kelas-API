@@ -10,10 +10,9 @@ class SiswaAbsen extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_rombel',
-        'id_siswa',
+        'siswa_id',
+        'agenda_kelas_id',
         'keterangan_absen',
         'alasan',
-        'kelas'
     ];
 }

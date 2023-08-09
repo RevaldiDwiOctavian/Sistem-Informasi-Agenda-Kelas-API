@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->default('siswa');
-            $table->string('status')->default('aktif');
+            $table->string('status')->default('Aktif');
             $table->rememberToken();
             $table->timestamps();
         });

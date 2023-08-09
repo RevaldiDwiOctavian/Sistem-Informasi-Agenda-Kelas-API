@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('alasan');
             $table->timestamps();
             $table->foreign('siswa_id')->references('id')->on('siswas')->onDelete('cascade');
-            $table->foreign('agenda_kelas_id')->references('id')->on('agenda_kelas');
+            $table->foreign('agenda_kelas_id')->references('id')->on('agenda_kelas')->onDelete('cascade');
         });
     }
 

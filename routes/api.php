@@ -99,5 +99,9 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
         // Agenda Kelas Guru Route
         Route::post('/agenda-kelas', [AgendaKelasGuruController::class, 'isiAgendaKelas']);
         Route::get('/pembelajaran-guru/{id}', [AgendaKelasGuruController::class, 'showPembelajaranGuru']);
+        Route::get('/siswa-current/{id}', [AgendaKelasGuruController::class, 'showSiswaByCurrentAgenda']);
+        Route::post('/siswa-absen', [AgendaKelasGuruController::class, 'isiSiswaAbsen']);
+        Route::get('/siswa-absen/{id}', [AgendaKelasGuruController::class, 'showSiswaAbsenByCurrentAgendaKelas']);
+        Route::delete('/siswa-absen/{id}', [AgendaKelasGuruController::class, 'deleteSiswaAbsen']);
     });
 });
