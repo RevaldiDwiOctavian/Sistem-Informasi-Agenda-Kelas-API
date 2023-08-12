@@ -14,6 +14,7 @@ use App\Http\Controllers\API\Admin\RombelManagement\RombelManagementController;
 use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagementController;
 use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementController;
 use App\Http\Controllers\API\Guru\AgendaKelasGuruController;
+use App\Http\Controllers\API\Siswa\AgendaKelasSiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,5 +104,13 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
         Route::post('/siswa-absen', [AgendaKelasGuruController::class, 'isiSiswaAbsen']);
         Route::get('/siswa-absen/{id}', [AgendaKelasGuruController::class, 'showSiswaAbsenByCurrentAgendaKelas']);
         Route::delete('/siswa-absen/{id}', [AgendaKelasGuruController::class, 'deleteSiswaAbsen']);
+    });
+
+    Route::prefix('siswa')->group(function () {
+        // Guru Routes
+        // Agenda Kelas Guru Route
+        Route::get('/agenda-kelas/{id}', [AgendaKelasSiswaController::class, 'getAgendeKelasUnconfirmedByRombel']);
+        Route::get('/agenda-kelas/{id}/konfirmasi-hadir', [AgendaKelasSiswaController::class, 'konfirmasiHadirAgendaKelas']);
+        Route::get('/agenda-kelas/{id}/konfirmasi-tidak-hadir', [AgendaKelasSiswaController::class, 'konfirmasiTidakHadirAgendaKelas']);
     });
 });
