@@ -15,6 +15,7 @@ use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagement
 use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementController;
 use App\Http\Controllers\API\Guru\AgendaKelasGuruController;
 use App\Http\Controllers\API\Siswa\AgendaKelasSiswaController;
+use App\Http\Controllers\API\WaliKelas\WaliKelasContrroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,5 +113,11 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
         Route::get('/agenda-kelas/{id}', [AgendaKelasSiswaController::class, 'getAgendeKelasUnconfirmedByRombel']);
         Route::get('/agenda-kelas/{id}/konfirmasi-hadir', [AgendaKelasSiswaController::class, 'konfirmasiHadirAgendaKelas']);
         Route::get('/agenda-kelas/{id}/konfirmasi-tidak-hadir', [AgendaKelasSiswaController::class, 'konfirmasiTidakHadirAgendaKelas']);
+    });
+
+    Route::prefix('walikelas')->group(function () {
+        // walikelas Routes
+        Route::get('/rombel/{id}', [WaliKelasContrroller::class, 'informasiRombel']);
+        Route::get('/agenda-kelas/{id}', [WaliKelasContrroller::class, 'showAgendaKelasByRombel']);
     });
 });

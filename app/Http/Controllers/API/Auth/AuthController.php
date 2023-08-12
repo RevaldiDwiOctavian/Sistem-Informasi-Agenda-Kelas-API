@@ -64,6 +64,14 @@ class AuthController extends Controller
                 ->where('users.id', auth()->user()->id)
                 ->first();
             return response()->json(['data' => $user]);
+        } else if (auth()->user()->role == "walikelas") {
+            $user = DB::table('gurus')
+                ->select('users.id', 'users.email', 'users.name', 'users.role', 'gurus.id as guru_id', 'rombels.id as rombel_id')
+                ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
+                ->rightJoin('rombels', 'rombels.user_id', '=', 'users.id')
+                ->where('users.id', auth()->user()->id)
+                ->first();
+            return response()->json(['data' => $user]);
         }
     }
 }
