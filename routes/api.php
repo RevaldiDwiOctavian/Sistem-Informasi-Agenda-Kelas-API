@@ -13,6 +13,7 @@ use App\Http\Controllers\API\Admin\SiswaManagement\SiswaManagementController;
 use App\Http\Controllers\API\Admin\RombelManagement\RombelManagementController;
 use App\Http\Controllers\API\Admin\PembelajaranManagement\PembelajaranManagementController;
 use App\Http\Controllers\API\Admin\AgendaKelasManagement\AgendaKelasManagementController;
+use App\Http\Controllers\API\ExportController;
 use App\Http\Controllers\API\Guru\AgendaKelasGuruController;
 use App\Http\Controllers\API\Siswa\AgendaKelasSiswaController;
 use App\Http\Controllers\API\WaliKelas\WaliKelasContrroller;
@@ -111,6 +112,7 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
         // Guru Routes
         // Agenda Kelas Guru Route
         Route::get('/agenda-kelas/{id}', [AgendaKelasSiswaController::class, 'getAgendeKelasUnconfirmedByRombel']);
+        Route::get('/jumlah-konfirmai-agenda-kelas/{id}', [AgendaKelasSiswaController::class, 'jumlahAgendaKelasBelumKonfirmasi']);
         Route::get('/agenda-kelas/{id}/konfirmasi-hadir', [AgendaKelasSiswaController::class, 'konfirmasiHadirAgendaKelas']);
         Route::get('/agenda-kelas/{id}/konfirmasi-tidak-hadir', [AgendaKelasSiswaController::class, 'konfirmasiTidakHadirAgendaKelas']);
     });
@@ -119,5 +121,12 @@ Route::group(['middleware' => ['auth:sanctum', 'throttle:255,1']], function () {
         // walikelas Routes
         Route::get('/rombel/{id}', [WaliKelasContrroller::class, 'informasiRombel']);
         Route::get('/agenda-kelas/{id}', [WaliKelasContrroller::class, 'showAgendaKelasByRombel']);
+        Route::get('/siswa/{id}', [WaliKelasContrroller::class, 'showSiswasByRombel']);
     });
+});
+
+
+Route::prefix('export')->group(function () {
+    // walikelas Routes
+    Route::get('/agenda-kelas/{id}', [ExportController::class, 'exportAgendaKelas']);
 });

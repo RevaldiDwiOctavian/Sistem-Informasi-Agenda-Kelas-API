@@ -13,7 +13,7 @@ class AgendaKelasGuruController extends Controller
 {
     public function isiAgendaKelas(Request $request)
     {
-        if (auth()->user()->role == "guru") {
+        if (auth()->user()->role == "guru" || auth()->user()->role == "walikelas") {
             $validator = Validator::make($request->all(), [
                 'rombel_id' => 'required',
                 'guru_id' => 'required',
@@ -30,7 +30,7 @@ class AgendaKelasGuruController extends Controller
                 'guru_id' => $request->guru_id,
                 'pembelajaran_id' => $request->pembelajaran_id,
                 'materi_pembelajaran' => $request->materi_pembelajaran,
-                'kehadiran_guru' => 'unconfirmed',
+                'kehadiran_guru' => 'Belum Dikonfirmasi',
             ]);
         } else {
             return response()->json(['message' => "You don't have access"]);
@@ -44,7 +44,7 @@ class AgendaKelasGuruController extends Controller
 
     public function isiSiswaAbsen(Request $request)
     {
-        if (auth()->user()->role == "guru") {
+        if (auth()->user()->role == "guru" || auth()->user()->role == "walikelas") {
             $validator = Validator::make($request->all(), [
                 'siswa_id' => 'required',
                 'agenda_kelas_id' => 'required',
@@ -73,7 +73,7 @@ class AgendaKelasGuruController extends Controller
     }
 
     public function showSiswaAbsenByCurrentAgendaKelas($id){
-        if (auth()->user()->role == "guru") {
+        if (auth()->user()->role == "guru" || auth()->user()->role == "walikelas") {
             $siswaAbsen = DB::table('siswa_absens')
                 ->select('siswas.id', 'siswas.nisn', 'siswas.nama_lengkap', 'siswas.rombel_id', 'siswa_absens.*')
                 ->leftJoin('siswas', 'siswas.id', '=', 'siswa_absens.siswa_id')
@@ -88,7 +88,7 @@ class AgendaKelasGuruController extends Controller
 
     public function showSiswaByCurrentAgenda($id)
     {
-        if (auth()->user()->role == "guru") {
+        if (auth()->user()->role == "guru" || auth()->user()->role == "walikelas") {
             $siswa = DB::table('siswas')
                 ->select('siswas.id', 'siswas.nisn', 'siswas.nama_lengkap', 'siswas.rombel_id', 'rombels.nama_rombel', 'siswas.jenis_kelamin', 'rombels.jurusan', 'siswas.created_at', 'siswas.user_id', 'users.name as nama_akun')
                 ->leftJoin('users', 'siswas.user_id', '=', 'users.id')

@@ -53,6 +53,7 @@ class AgendaKelasManagementController extends Controller
                     'gurus.nama_lengkap as nama_guru',
                     'gurus.nuptk',
                     'pembelajarans.mata_pelajaran',
+                    'agenda_kelas.kehadiran_guru'
                 )
                 ->leftJoin('rombels', 'agenda_kelas.rombel_id', '=', 'rombels.id')
                 ->leftJoin('gurus', 'agenda_kelas.guru_id', '=', 'gurus.id')
@@ -65,7 +66,8 @@ class AgendaKelasManagementController extends Controller
                     'rombels.jurusan',
                     'gurus.nama_lengkap',
                     'gurus.nuptk',
-                    'pembelajarans.mata_pelajaran'
+                    'pembelajarans.mata_pelajaran',
+                    'agenda_kelas.kehadiran_guru'
                 )
                 ->get();
 

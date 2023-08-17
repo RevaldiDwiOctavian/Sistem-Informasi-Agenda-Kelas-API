@@ -12,15 +12,46 @@ class WaliKelasContrroller extends Controller
     public function informasiRombel($id){
         if (auth()) {
             $rombel = DB::table('rombels')
-            ->select('rombels.nama_rombel', 'rombels.jurusan', 'rombels.user_id', 'users.name as wali_kelas')
-            ->leftJoin('users', 'rombels.user_id', '=', 'users.id')
-            ->where('rombels.user_id', $id)
-            ->first();
+                ->select('rombels.id', 'rombels.nama_rombel', 'rombels.jurusan', 'rombels.user_id', 'users.name as wali_kelas')
+                ->leftJoin('users', 'rombels.user_id', '=', 'users.id')
+                ->where('rombels.user_id', $id)
+                ->first();
+        
+            $jumlahSiswa = DB::table('siswas')
+                ->where('rombel_id', $rombel->id)
+                ->count();
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+        
+        $responseData = [
+            'data' => [
+                'id' => $rombel->id,
+                'nama_rombel' => $rombel->nama_rombel,
+                'jurusan' => $rombel->jurusan,
+                'user_id' => $rombel->user_id,
+                'wali_kelas' => $rombel->wali_kelas,
+                'jumlah_siswa' => $jumlahSiswa,
+            ],
+        ];
+        
+        return response()->json($responseData, 200);
+    }
+
+    public function showSiswasByRombel($id)
+    {
+        if (auth()->user()->role == "walikelas") {
+            $siswa = DB::table('siswas')
+                ->select('siswas.id', 'siswas.nisn', 'siswas.nama_lengkap', 'siswas.rombel_id', 'rombels.nama_rombel', 'siswas.jenis_kelamin', 'rombels.jurusan', 'siswas.created_at', 'siswas.user_id', 'users.name as nama_akun')
+                ->leftJoin('users', 'siswas.user_id', '=', 'users.id')
+                ->leftJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
+                ->where('siswas.rombel_id', $id)
+                ->get();
         } else {
             return response()->json(['message' => "You don't have access"]);
         }
 
-        return response()->json(['data' => $rombel], 200);
+        return response()->json(['data' => $siswa], 200);
     }
 
     public function showAgendaKelasByRombel($id){
@@ -54,13 +85,13 @@ class WaliKelasContrroller extends Controller
             $agendaKelas = $agendaKelas->map(function ($item) {
                 $siswaAbsens = DB::table('siswa_absens')
                     ->select(
-                        'siswa_absens.id',
-                        'siswa_absens.agenda_kelas_id',
+                        'siswas.nama_lengkap',
+                        'siswas.nisn',
+                        'jenis_kelamin',
                         'siswa_absens.keterangan_absen',
                         'siswa_absens.alasan',
-                        'siswa_absens.created_at',
-                        'siswa_absens.updated_at'
                     )
+                    ->leftJoin('siswas', 'siswa_absens.siswa_id', 'siswas.id')
                     ->where('siswa_absens.agenda_kelas_id', $item->id)
                     ->get();
 

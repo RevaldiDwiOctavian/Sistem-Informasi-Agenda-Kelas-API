@@ -26,7 +26,7 @@ class AgendaKelasSiswaController extends Controller
                 ->leftJoin('siswa_absens', 'agenda_kelas.id', '=', 'siswa_absens.agenda_kelas_id')
                 ->leftJoin('pembelajarans', 'agenda_kelas.pembelajaran_id', '=', 'pembelajarans.id')
                 ->where('agenda_kelas.rombel_id', $id)
-                ->where('agenda_kelas.kehadiran_guru', 'unconfirmed')
+                ->where('agenda_kelas.kehadiran_guru', 'Belum Dikonfirmasi')
                 ->groupBy(
                     'agenda_kelas.id',
                     'agenda_kelas.created_at',
@@ -56,6 +56,18 @@ class AgendaKelasSiswaController extends Controller
                 return $item;
             });
 
+            return response()->json(['data' => $agendaKelas], 200);
+        } else {
+            return response()->json(['message' => "You don't have access"]);
+        }
+    }
+
+    public function jumlahAgendaKelasBelumKonfirmasi($id) {
+        if (auth()->user()->role == "siswa") { 
+            $agendaKelas = DB::table('agenda_kelas')
+            ->where('rombel_id', $id)
+            ->where('kehadiran_guru', 'Belum Dikonfirmasi')
+            ->count();;
             return response()->json(['data' => $agendaKelas], 200);
         } else {
             return response()->json(['message' => "You don't have access"]);
