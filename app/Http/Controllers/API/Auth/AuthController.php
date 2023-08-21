@@ -51,14 +51,14 @@ class AuthController extends Controller
             return response()->json(['data' => $user]);
         } else if (auth()->user()->role == "guru") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.email', 'users.name', 'users.role', 'gurus.id as guru_id')
+                ->select('users.id', 'users.email', 'users.name', 'users.role', 'users.no_wa', 'gurus.id as guru_id')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->where('users.id', auth()->user()->id)
                 ->first();
             return response()->json(['data' => $user]);
         } else if (auth()->user()->role == "siswa") {
             $user = DB::table('siswas')
-                ->select('users.id', 'users.email', 'users.name', 'users.role', 'siswas.id as siswa_id', 'rombels.id as rombel_id')
+                ->select('users.id', 'users.email', 'users.name', 'users.role', 'siswas.id as siswa_id', 'users.no_wa', 'rombels.id as rombel_id')
                 ->rightJoin('users', 'siswas.user_id', '=', 'users.id')
                 ->rightJoin('rombels', 'siswas.rombel_id', '=', 'rombels.id')
                 ->where('users.id', auth()->user()->id)
@@ -66,7 +66,7 @@ class AuthController extends Controller
             return response()->json(['data' => $user]);
         } else if (auth()->user()->role == "walikelas") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.email', 'users.name', 'users.role', 'gurus.id as guru_id', 'rombels.id as rombel_id')
+                ->select('users.id', 'users.email', 'users.name', 'users.role', 'gurus.id as guru_id', 'users.no_wa', 'rombels.id as rombel_id')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->rightJoin('rombels', 'rombels.user_id', '=', 'users.id')
                 ->where('users.id', auth()->user()->id)

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('siswa');
             $table->string('status')->default('Aktif');
+            $table->string('no_wa')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -29,6 +29,7 @@ class UserManagementController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
+                'no_wa' => $request->no_wa,
             ]);
         } else {
             return response()->json(['message' => "You don't have access"]);
@@ -53,6 +54,7 @@ class UserManagementController extends Controller
         if (auth()) {
             $user->name = $request->name;
             $user->role = $request->role;
+            $user->no_wa =  $request->no_wa;
             $user->status = $request->status;
             if ($user->save()) {
                 return response()->json(['message' => "User Updated"], 200);

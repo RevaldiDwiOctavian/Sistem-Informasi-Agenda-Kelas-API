@@ -12,7 +12,7 @@ class UserGuruManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status',  'users.no_wa', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->where('users.role', 'guru')
                 ->get();
@@ -27,7 +27,7 @@ class UserGuruManagementController extends Controller
     {
         if (auth()->user()->role == "admin") {
             $user = DB::table('gurus')
-                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
+                ->select('users.id', 'users.name', 'users.email', 'users.role', 'users.status',  'users.no_wa', 'users.created_at', 'gurus.nama_lengkap', 'gurus.nuptk')
                 ->rightJoin('users', 'gurus.user_id', '=', 'users.id')
                 ->Where('users.role', 'walikelas')
                 ->get();

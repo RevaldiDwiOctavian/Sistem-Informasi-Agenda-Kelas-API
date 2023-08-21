@@ -1,7 +1,7 @@
 <table border="1">
     <thead>
         <tr>
-            <th colspan="7">Informasi Agenda Kelas</th>
+            <th colspan="8">Informasi Agenda Kelas</th>
             <th colspan="5">Siswa Absen</th>
         </tr>
     </thead>
@@ -15,6 +15,7 @@
             <th>NUPTK</th>
             <th>Mata Pelajaran</th>
             <th>Materi Pembelajaran</th>
+            <th>Kehadiran Guru</th>
             <th>Nama Siswa</th>
             <th>NISN</th>
             <th>Jenis Kelamin</th>
@@ -33,6 +34,7 @@
                 <td rowspan="{{ count($item->siswa_absens) }}">{{ $item->nuptk }}</td>
                 <td rowspan="{{ count($item->siswa_absens) }}">{{ $item->mata_pelajaran }}</td>
                 <td rowspan="{{ count($item->siswa_absens) }}">{{ $item->materi_pembelajaran }}</td>
+                <td rowspan="{{ count($item->siswa_absens) }}">{{ $item->kehadiran_guru }}</td>
                 @endif
                 <td>{{ $absen->nama_lengkap }}</td>
                 <td>{{ $absen->nisn }}</td>
