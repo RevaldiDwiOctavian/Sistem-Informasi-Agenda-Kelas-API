@@ -23,14 +23,22 @@ class UserManagementController extends Controller
             if($validator->fails()){
                 return response()->json($validator->errors(), 400);
             }
+            $user = new User();
+            $user->name = $request->name;
+            $user->role = $request->role;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->no_wa =  $request->no_wa;
+            $user->status = 'Aktif';
+            $user->save();
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => $request->role,
-                'no_wa' => $request->no_wa,
-            ]);
+            // $user = User::create([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => Hash::make($request->password),
+            //     'role' => $request->role,
+            //     'no_wa' => $request->no_wa,
+            // ]);
         } else {
             return response()->json(['message' => "You don't have access"]);
         }

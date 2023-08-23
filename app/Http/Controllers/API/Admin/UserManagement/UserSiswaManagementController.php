@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\Admin\UserManagement;
 
 use App\Http\Controllers\Controller;
-z
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserSiswaManagementController extends Controller
 {
